@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}我的订单{% endblock %}
+{% load staticfiles %}
+{% block content %}
+<section>
+	<div class="wp butler_list_box list">
+	<div class='left'>
+		<div class="all">共<span class="key">{{ all_nums }} </span>单</div>
+		<div class="butler_list company list">
+		<div class="layout">
+                {% for order in all_order %}
+                        <dl class="des difdes">
+                    <dt>
+                        <a href="{% url 'business:business_detail' order.bid %}">
+                            <img width="200" height="120" class="scrollLoading" data-url="{{ MEDIA_URL }}{{ order.bimage }}"/>
+                        </a>
+                    </dt>
+                    <dd>
+                        <div class="clearfix">
+                             <a href="{% url 'business:business_detail' order.bid %}">
+                                 <h1>{{ order.bname }}</h1>
+                             </a>
+                        </div>
+                        <ul class="cont">
+                            <li class="first"><p class="pic9">总计：<span>{{ order.total }}</span></p><p class="c7">状态：<span>{{ order.get_status_display }}</span></p></li>
+                            <li class="c8" style="padding-left:18px;">{{ order.address }}</li>
+                        </ul>
+                    </dd>
+                </dl>
+                {% endfor %}
+		</div>
+		 <div class="pagination">
+    <span class="step-links">
+        {% if all_business.has_previous %}
+           <a href="?page={{ all_business.previous_page_number }}">previous</a>
+        {% endif %}
+          <span class="current">
+                  Page {{ all_business.number }} of {{ all_business.paginator.num_pages }}.
+          </span>
+        {% if all_business.has_next %}
+           <a href="?page={{ all_business.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+		</div>
+	</div>
+    </div>
+</section>
+{% endblock %}
+{% block footer %}
+{% endblock %}

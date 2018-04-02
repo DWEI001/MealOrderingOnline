@@ -1,0 +1,90 @@
+<!DOCTYPE html >
+<html>
+{% load staticfiles %}
+<head>
+<meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" >
+<title>确认订单</title>
+<link href="/static/css/public.css" type="text/css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="/static/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/checkOut.css" />
+</head>
+<body>
+ <!--收货地址body部分开始-->
+<div class="container">
+    <div class="checkout-box">
+        <form  id="checkoutForm" action="{% url 'business:business_checkout' order.id %}" method="post">
+            <div class="checkout-box-bd">
+                <div class="xm-box">
+                    <div class="box-hd ">
+    <h2 class="title">收货地址</h2>
+</div>
+<div class="box-bd">
+    <div class="clearfix xm-address-list" id="checkoutAddrList">
+          <dl class="item" >
+            <dd>
+                <p class="tel itemTel">{{ order.user.nick_name }}{{ order.user.mobile }}</p>
+                <p class="itemRegion">{{ order.user.address }}</p>
+            </dd>
+        </dl>
+    </div>
+ </div>
+                    <div class="checkout-box-ft">
+                 <!-- 商品清单 -->
+                <div id="checkoutGoodsList" class="checkout-goods-box">
+                    <div class="xm-box">
+                    <div class="box-hd">
+                        <h2 class="title">订单信息</h2>
+                    </div>
+                    <div class="box-bd">
+                        <dl class="checkout-goods-list">
+                            <dt class="clearfix">
+                                <span class="col col-1">商品名称</span>
+                                <span class="col col-2">购买价格</span>
+                                <span class="col col-3">购买数量</span>
+                            </dt>
+                            {% for menu in order_detail %}
+                            <dd class="item clearfix">
+                                <div class="item-row">
+                                    <div class="col col-1">
+                                        <div class="g-pic">
+                                            <img src="{{ MEDIA_URL }}{{ menu.image }}" srcset="http://i1.mifile.cn/a1/T11lLgB5YT1RXrhCrK!80x80.jpg 2x" width="40" height="40" />
+                                        </div>
+                                        <div class="g-info">
+                                            <a href="http://item.mi.com/1151500067.html" target="_blank">
+                                                {{ menu.name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col col-2">{{ menu.price }}元</div>
+                                    <div class="col col-3">{{ menu.count }}</div>
+                                </div>
+                            </dd>
+                            {% endfor %}
+                        </dl>
+                        <div class="checkout-count clearfix">
+                            <div class="checkout-price">
+                                <ul>
+                                    <li>
+                                       订单总额：<span>{{ order.total }}元</span>
+                                    </li>
+                                </ul>
+                                <p class="checkout-total">应付总额：<span><strong id="totalPrice">{{ order.total }}</strong>元</span></p>
+                            </div>
+                        </div>
+                    </div>
+    <input type="hidden"  name="状态"  {% if order.status == "1" %} value="1" {% elif order.status == "2" %}   value="2"  {% elif  order.status == "3"%}  value="3" {% endif %}/>
+                    <input type="submit" class="btn btn-primary" id="checkoutToPay" {% if order.status == "1" %}value="立即接单" {% elif order.status == "2" %} value=" 开始配送" {% elif order.status == "3" %} value="完成" {% else %} value="已完成"{% endif %} />
+    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% csrf_token %}
+    </form>
+     </div>
+            </div>
+</body>
+
+</html>

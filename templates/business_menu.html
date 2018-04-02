@@ -1,0 +1,35 @@
+{% extends 'businessinfo_base.html' %}
+{% block title %}菜品管理{% endblock %}
+
+{% block right_content %}
+    <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+                <a href="{% url 'business:add_menu' %}"><h1>+添加新品</h1></a>
+			</div>
+		</div>
+		<div class="personal_des permessage">
+			<div class="companycenter">
+				<div class="group_list brief">
+                    {% for menu in all_munu %}
+                    <div class="module1_5 box">
+                            <a href="{% url 'business:menu_detail' menu.id %}">
+                                <img width="214" height="190" class="scrollLoading" src="{{ MEDIA_URL }}{{ menu.mimage}}"/>
+                            </a>
+                            <div class="des">
+                                <a href=""><h2>{{ menu.mname }}</h2></a>
+
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">单价：<i class="key">{{ menu.mprice }}</i></span>
+                                <span class="fr">{{ menu.discount }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

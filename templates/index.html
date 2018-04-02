@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}好吃网首页{% endblock %}
+{% load staticfiles %}
+<!--module1 start-->
+<section>
+	<div class="wp butler_list_box list">
+	<div class='left'>
+		<div class="listoptions">
+			<ul>
+				<li>
+					<h2>热门地区</h2>
+					<div class="cont">
+                        <a href="?ct="><span class="active2">全部</span></a>
+                        {% for city in all_city %}
+                          <a href="?city={{ city.id }}"><span class="active2">{{ city.name }}</span></a>
+                        {% endfor %}
+					</div>
+				</li>
+			</ul>
+		</div>
+    </div>
+    </div>
+</section>
+{% block content %}
+    <section>
+	<div class="wp butler_list_box list">
+	<div class='left'>
+		<div class="listoptions">
+			<ul>
+				<li>
+					<h2>热门地区</h2>
+					<div class="cont">
+                        <a href="?ct="><span class="active2">全部</span></a>
+                        {% for city in all_city %}
+                          <a href="?city={{ city.id }}"><span class="active2">{{ city.name }}</span></a>
+                        {% endfor %}
+					</div>
+				</li>
+			</ul>
+		</div>
+    </div>
+    </div>
+</section>
+	<section>
+		<div class="module">
+			<div class="wp">
+				<div class="module1 eachmod">
+					<div class="brief group_list">
+                        {% for item in all_business %}
+                            <div class="module1_5 box">
+                                <a href="{% url 'business:business_detail' item.id %}"><img width="214" height="190" src="{{ MEDIA_URL }}{{item.bimage}}" /></a>
+                                <div class="des">
+                                    <a ><h2 >{{ item.bname}}</h2>
+                                    </a>
+                                    <a><h6>{{ item.baddress }}</h6></a>
+                                </div>
+                                <div class="bottom">
+                                    <span class="fl" title="点击人数">点餐人数：{{ item.hit_nums }}</span>
+                                    <span class="star fr">{{ item.fav_nums }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+     <div class="pagination">
+    <span class="step-links">
+        {% if all_business.has_previous %}
+           <a href="?page={{ all_business.previous_page_number }}">previous</a>
+        {% endif %}
+          <span class="current">
+                  Page {{ all_business.number }} of {{ all_business.paginator.num_pages }}.
+          </span>
+        {% if all_business.has_next %}
+           <a href="?page={{ all_business.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+	</section>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,84 @@
+{% extends 'businessinfo_base.html' %}
+{% block title %}添加菜品{% endblock %}
+
+{% block right_content %}
+    <div class="right">
+		<div class="personal_des ">
+			<div class="head" style="border:1px solid #eaeaea;">
+				<h1>基本信息</h1>
+			</div>
+			<div class="inforcon">
+				<div class="left" style="width:242px;">
+                    <iframe id='frameFile' name='frameFile' style='display: none;'></iframe>
+                    <form class="clearfix" id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off" method="post" action="" target='frameFile'>
+                        <label class="changearea" for="avatarUp">
+                            <span id="avatardiv" class="pic">
+                                <img width="100" height="100" class="js-img-show" id="avatarShow" src=""/>
+                            </span>
+                            <span class="fl upload-inp-box" style="margin-left:70px;">
+                                <span class="button btn-green btn-w100" id="jsAvatarBtn">上传图片</span>
+                                <input type="file" name="image" id="avatarUp" class="js-img-up"/>
+                            </span>
+                        </label>
+                        {% csrf_token %}
+                    </form>
+				</div>
+				<form class="perinform" id="jsEditUserForm" autocomplete="off" method="post"  action="{% url 'business:add_menu' %}">
+					<ul class="right">
+						<li>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：
+                           <input type="text" name="name" id="mname"  maxlength="30">
+                            <i class="error-tips"></i>
+                        </li>
+						<li class="p_infor_city">单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：
+                            <input type="text" name="price" id="price" placeholder="请输入菜品单价" >
+						    <i class="error-tips"></i>
+                        </li>
+						<li>折&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扣：
+                            <input type="text" name="discount" id="discount" placeholder="请输入菜品折扣" >
+                        </li>
+                        <li>类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：
+                            <input type="text" name="type" id="type" placeholder="请输入菜品类型" >
+                        </li>
+						<li class="button heibtn">
+							<input type="submit" id="EditUserBtn" value="保存" >
+						</li>
+					</ul>
+                    {% csrf_token %}
+				</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+<script type="text/javascript">
+function add_fav( jsEditUserForm){
+    $.ajax({
+        cache: false,
+        type: "POST",
+        url:"{% url "user_info" %}",
+        data:jsEditUserForm.serialize(),
+        async: true,
+        beforeSend:function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(data) {
+            data = JSON.parse(data);
+            if(data.status == 'fail')
+            {
+                    alert(data.msg)
+            }
+            else if(data.status == 'success')
+            {
+                alert(data.msg)
+            }
+        },
+    });
+}
+
+$('.EditUserBtn').on('click', function(){
+    var  jsEditUserForm = $('#jsEditUserForm');
+    add_fav(jsEditUserForm);
+});
+</script>
+
+
